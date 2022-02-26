@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SynerGym</string>
+    <string name="welcome">SynerGym </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="check_internet_connection">Check internet connection</string>
+</resources>

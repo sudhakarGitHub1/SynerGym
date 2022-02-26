@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_nav_graph"
+    app:startDestination="@id/headlines_fragment">
+    <fragment
+        android:id="@+id/headlines_fragment"
+        android:name="com.example.synergym.myorders.ui.HeadLinesFragment"
+        android:label="Sign Up or Log In"
+        tools:layout="@layout/fragment_headlines">
+        <action
+            android:id="@+id/detail_btn"
+            app:destination="@id/news_detail_fragment" >
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/news_detail_fragment"
+        android:name="com.example.synergym.myorders.ui.NewsDetailFragment"
+        android:label="Sign Up or Log In"
+        tools:layout="@layout/fragment_order_detail"></fragment>
+</navigation>
