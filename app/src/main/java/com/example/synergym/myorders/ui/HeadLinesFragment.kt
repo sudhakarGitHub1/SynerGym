@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,16 +51,22 @@ class HeadLinesFragment : Fragment(), HeadLineListner {
         headlerBinding.headerTitleTxt.setTypeFaceRobotoBold(requireContext())
         headlerBinding.leftIconTxt.inVisible()
         headLinesViewModel.myNewsList(requireContext())
+        headLinesViewModel.newsData.observe(viewLifecycleOwner, Observer {
+            res.clear()
+            myNewsListBinding.progressBar.hide()
+            for (i in it.articles) {
+                it.let { it1 -> res.addAll(listOf(it1)) }
+            }
+            initRecycleView()
+        })
         return myNewsListBinding.root
     }
 
     override fun onSuccess(loginResponse: NewsData) {
-            myNewsListBinding.progressBar.hide()
-        res.clear()
-        for (i in loginResponse.articles) {
-            loginResponse.let { it1 -> res.addAll(listOf(it1)) }
-        }
-            initRecycleView()
+//        res.clear()
+//        for (i in loginResponse.articles) {
+//            loginResponse.let { it1 -> res.addAll(listOf(it1)) }
+//        }
     }
 
     private fun initRecycleView() {
