@@ -34,6 +34,7 @@ class HeadLinesViewModel(private val headLinesRepository: HeadLinesRepository) :
 //                    headLineListner?.onSuccess(newsResponse)
                     insertData(newsResponse)
                 }else{
+                    headLineListner?.onFailure("No Internet")
                     getNewsLiveData()
                 }
             } catch (e: ApiException) {
