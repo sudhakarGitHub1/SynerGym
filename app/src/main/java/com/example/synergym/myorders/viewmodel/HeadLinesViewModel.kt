@@ -1,7 +1,6 @@
 package com.example.synergym.myorders.viewmodel
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.room.Room
@@ -22,24 +21,21 @@ class HeadLinesViewModel(private val headLinesRepository: HeadLinesRepository) :
     val newsData: MutableLiveData<NewsData> by lazy {
         MutableLiveData<NewsData>()
     }
+
     fun myNewsList(context: Context) {
         noteDatabase =
             Room.databaseBuilder(context, NewsDataBase::class.java, "data_base").build()
         headLineListner?.onStarted()
         Coroutines.main {
             try {
-                if (isnetworkAvailable(context)){
-                    val newsResponse = headLinesRepository.myNews()
-                    newsData.value = newsResponse
+                val newsResponse = headLinesRepository.myNews()
+                newsData.value = newsResponse
 //                    headLineListner?.onSuccess(newsResponse)
-                    insertData(newsResponse)
-                }else{
-                    headLineListner?.onFailure("No Internet")
-                    getNewsLiveData()
-                }
+                insertData(newsResponse)
             } catch (e: ApiException) {
                 headLineListner?.onFailure(e.message!!)
             } catch (e: NoInternetException) {
+                getNewsLiveData()
                 headLineListner?.onFailure(e.message!!)
             } catch (e: TimeoutException) {
                 headLineListner?.onFailure(e.message!!)
@@ -48,11 +44,17 @@ class HeadLinesViewModel(private val headLinesRepository: HeadLinesRepository) :
             }
         }
     }
-    fun getNewsLiveData(){
+
+    fun getNewsLiveData() {
         GlobalScope.launch {
-            withContext(Dispatchers.IO ){ newsData.postValue(noteDatabase!!.userDao()!!.fetchAllTasks()) }
+            withContext(Dispatchers.IO) {
+                newsData.postValue(
+                    noteDatabase!!.userDao()!!.fetchAllTasks()
+                )
+            }
         }
     }
+
     private fun insertData(newsResponse: NewsData) {
         Coroutines.io {
             noteDatabase!!.userDao()!!.insertTask(newsResponse);
