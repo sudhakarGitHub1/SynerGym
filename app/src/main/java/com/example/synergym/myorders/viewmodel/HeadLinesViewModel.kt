@@ -47,9 +47,9 @@ class HeadLinesViewModel(private val headLinesRepository: HeadLinesRepository) :
 
     fun getNewsLiveData() {
         GlobalScope.launch {
-            withContext(Dispatchers.IO) {
+            Coroutines.io {
                 newsData.postValue(
-                    noteDatabase!!.userDao()!!.fetchAllTasks()
+                    noteDatabase.userDao()!!.fetchAllTasks()
                 )
             }
         }
